@@ -18,7 +18,7 @@
 
 1. 安装扩展：
    ```bash
-   code --install-extension neko-vscode-extension-0.1.2.vsix
+   code --install-extension neko-vscode-extension-0.1.3.vsix
    ```
 2. 重新加载 VSCode 窗口，打开一个工作区文件夹。
 3. 状态栏出现 `N.E.K.O.`。如果显示未连接，运行命令 **N.E.K.O.: 连接** 或 **N.E.K.O.: 检查连接**。
