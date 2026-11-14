@@ -1,0 +1,41 @@
+name: CI
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  plugin:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/checkout@v4
+        with:
+          repository: Project-N-E-K-O/N.E.K.O
+          path: .ci/N.E.K.O
+          ref: main
+      - uses: astral-sh/setup-uv@v5
+      - name: Install N.E.K.O. dependencies
+        working-directory: .ci/N.E.K.O
+        run: uv sync
+      - name: Install plugin-manager Node dependencies
+        run: npm ci --prefix .ci/N.E.K.O/frontend/plugin-manager
+      - name: Validate plugin manifest
+        working-directory: .ci/N.E.K.O
+        run: uv run neko-plugin check -r "$GITHUB_WORKSPACE/vscode_bridge"
+      - name: Run plugin tests
+        working-directory: .ci/N.E.K.O
+        run: uv run pytest "$GITHUB_WORKSPACE/vscode_bridge/tests" -q
+      - name: Hosted UI checks
+        run: bash "$GITHUB_WORKSPACE/scripts/check-hosted-ui.sh"
+        env:
+          NEKO_REPO: ${{ github.workspace }}/.ci/N.E.K.O
+      - name: Build plugin package
+        working-directory: .ci/N.E.K.O
+        run: |
+          uv run neko-plugin build "$GITHUB_WORKSPACE/vscode_bridge" \
+            -o "$GITHUB_WORKSPACE/dist/vscode_bridge.neko-plugin"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: neko-plugin
+          path: dist/vscode_bridge.neko-plugin

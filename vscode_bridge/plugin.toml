@@ -1,0 +1,65 @@
+[plugin]
+id = "vscode_bridge"
+name = "VSCode 桥接"
+description = "让 N.E.K.O. 通过本地 WebSocket 读写 VSCode 工作区代码。"
+short_description = "让 N.E.K.O. 读取和修改你的 VSCode 工作区。"
+version = "0.1.3"
+entry = "plugin.plugins.vscode_bridge:VSCodeBridgePlugin"
+keywords = ["vscode", "coding", "ide", "bridge", "agent"]
+
+[plugin.author]
+name = "N.E.K.O. Community"
+
+[plugin.sdk]
+recommended = ">=0.1.0,<0.2.0"
+supported = ">=0.1.0,<0.3.0"
+
+[plugin.i18n]
+default_locale = "en"
+locales_dir = "i18n"
+
+[plugin.models.coding]
+label = "Coding 模型"
+description = "用于多步代码修改的模型，需要支持 function calling（工具调用）。"
+required = false
+capabilities = ["text", "tool_calling"]
+
+[plugin.ui]
+enabled = true
+
+[[plugin.ui.panel]]
+id = "main"
+title = "VSCode 桥接"
+entry = "ui/panel.tsx"
+context = "dashboard"
+permissions = ["state:read", "action:call"]
+
+[[plugin.ui.guide]]
+id = "quickstart"
+title = "快速开始"
+entry = "docs/quickstart.md"
+permissions = ["state:read"]
+
+[plugin_runtime]
+enabled = true
+auto_start = true
+
+[vscode_bridge]
+port = 45821
+discovery_dir = ""
+heartbeat_seconds = 15
+stale_after_seconds = 45
+sync_wait_seconds = 20
+model_mode = "auto"
+permission_mode = "ask"
+coding_takeover_mode = "auto"
+allow_terminal = true
+max_steps = 0
+max_context_chars = 120000
+max_repair_rounds = 3
+task_timeout_seconds = 0
+model_timeout_seconds = 1800
+command_timeout_seconds = 120
+approval_timeout_seconds = 900
+allow_sensitive_files = false
+exclude_globs = ["**/.git/**", "**/node_modules/**", "**/dist/**", "**/build/**", "**/.venv/**"]

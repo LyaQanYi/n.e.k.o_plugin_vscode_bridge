@@ -1,0 +1,195 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "properties": {
+    "vscode_bridge": {
+      "type": "object",
+      "title": "VSCode Bridge",
+      "properties": {
+        "port": {
+          "type": "integer",
+          "title": "Port",
+          "description": "127.0.0.1 上的 WebSocket 端口；0 表示自动分配。",
+          "default": 45821,
+          "minimum": 0,
+          "maximum": 65535,
+          "x-title-i18n": {
+            "en": "Port",
+            "zh-CN": "端口"
+          },
+          "x-description-i18n": {
+            "en": "127.0.0.1 上的 WebSocket 端口；0 表示自动分配。",
+            "zh-CN": "127.0.0.1 上的 WebSocket 端口；0 表示自动分配。"
+          }
+        },
+        "model_mode": {
+          "type": "string",
+          "title": "Model mode",
+          "enum": [
+            "auto",
+            "dedicated",
+            "main"
+          ],
+          "default": "auto",
+          "x-title-i18n": {
+            "en": "Model mode",
+            "zh-CN": "模型模式"
+          },
+          "x-description-i18n": {
+            "en": "Model mode",
+            "zh-CN": "auto 优先使用 coding 模型；dedicated 只用 coding 模型；main 只用主模型。"
+          }
+        },
+        "allow_terminal": {
+          "type": "boolean",
+          "title": "Allow terminal commands",
+          "default": true,
+          "x-title-i18n": {
+            "en": "Allow terminal commands",
+            "zh-CN": "允许终端命令"
+          },
+          "x-description-i18n": {
+            "en": "Master switch. When off, no permission mode can run commands.",
+            "zh-CN": "终端总开关。关闭后任何权限模式都不会执行命令。"
+          },
+          "description": "Master switch for terminal commands. The permission mode decides whether to ask."
+        },
+        "sync_wait_seconds": {
+          "type": "integer",
+          "title": "Sync wait (seconds)",
+          "default": 20,
+          "minimum": 5,
+          "maximum": 60,
+          "x-title-i18n": {
+            "en": "Sync wait (seconds)",
+            "zh-CN": "同步等待秒数"
+          },
+          "x-description-i18n": {
+            "en": "Sync wait (seconds)",
+            "zh-CN": "小任务同步等待的时间，超时后转为后台任务。"
+          }
+        },
+        "max_steps": {
+          "type": "integer",
+          "title": "Max agent steps",
+          "description": "0 means unlimited. Set a positive number only if you want a safety cap.",
+          "default": 0,
+          "minimum": 0,
+          "maximum": 100000,
+          "x-title-i18n": {
+            "en": "Max agent steps",
+            "zh-CN": "最大 Agent 步数"
+          },
+          "x-description-i18n": {
+            "en": "0 = unlimited. Positive values cap the number of model turns.",
+            "zh-CN": "0 = 不限制。正数才会限制模型回合数。"
+          }
+        },
+        "max_context_chars": {
+          "type": "integer",
+          "title": "Max context characters",
+          "default": 120000,
+          "minimum": 10000,
+          "maximum": 500000,
+          "x-title-i18n": {
+            "en": "Max context characters",
+            "zh-CN": "最大上下文字符数"
+          },
+          "x-description-i18n": {
+            "en": "Max context characters",
+            "zh-CN": "发送给 coding 模型的上下文上限。"
+          }
+        },
+        "exclude_globs": {
+          "type": "array",
+          "title": "Excluded globs",
+          "items": {
+            "type": "string"
+          },
+          "x-title-i18n": {
+            "en": "Excluded globs",
+            "zh-CN": "排除的 Glob"
+          },
+          "x-description-i18n": {
+            "en": "Excluded globs",
+            "zh-CN": "搜索和文件列表默认排除的路径。"
+          }
+        },
+        "permission_mode": {
+          "type": "string",
+          "title": "Coding permission",
+          "description": "Ask before edits; auto-accept edits with risky-command prompts; or full access.",
+          "enum": [
+            "ask",
+            "auto_edit",
+            "full_access"
+          ],
+          "default": "ask",
+          "x-title-i18n": {
+            "en": "Coding permission",
+            "zh-CN": "Coding 权限"
+          },
+          "x-description-i18n": {
+            "en": "Ask before edits; auto-accept edits with risky-command prompts; or full access.",
+            "zh-CN": "请求审批；自动接受编辑但风险命令询问；或完全访问。"
+          }
+        },
+        "task_timeout_seconds": {
+          "type": "integer",
+          "title": "Task timeout (seconds)",
+          "description": "0 means no overall task timeout.",
+          "default": 0,
+          "minimum": 0,
+          "maximum": 86400,
+          "x-title-i18n": {
+            "en": "Task timeout (seconds)",
+            "zh-CN": "任务超时（秒）"
+          },
+          "x-description-i18n": {
+            "en": "0 = no overall timeout. The task can run until finished or cancelled.",
+            "zh-CN": "0 = 不限制总时长。任务会运行到完成或被取消。"
+          }
+        },
+        "model_timeout_seconds": {
+          "type": "integer",
+          "title": "Model request timeout (seconds)",
+          "description": "Per model request. 0 means the client default.",
+          "default": 1800,
+          "minimum": 0,
+          "maximum": 86400,
+          "x-title-i18n": {
+            "en": "Model request timeout (seconds)",
+            "zh-CN": "单次模型请求超时（秒）"
+          },
+          "x-description-i18n": {
+            "en": "Per model request. 0 = client default.",
+            "zh-CN": "单次模型请求的超时时间。0 = 使用客户端默认值。"
+          }
+        },
+        "coding_takeover_mode": {
+          "type": "string",
+          "title": "Coding takeover",
+          "description": "Take over explicit coding requests from chat: off, suggest, or auto.",
+          "enum": [
+            "off",
+            "suggest",
+            "auto"
+          ],
+          "default": "auto",
+          "x-title-i18n": {
+            "en": "Coding takeover",
+            "zh-CN": "Coding 接管"
+          },
+          "x-description-i18n": {
+            "en": "auto: start a real coding task for explicit coding requests; suggest: show a hint; off: disable.",
+            "zh-CN": "auto：对明确的 coding 请求直接启动真实任务；suggest：只提示；off：关闭。"
+          }
+        }
+      },
+      "x-title-i18n": {
+        "en": "VSCode Bridge",
+        "zh-CN": "VSCode 桥接"
+      }
+    }
+  }
+}
