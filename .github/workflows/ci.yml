@@ -1,3 +1,5 @@
+# Repo-root CI. `neko-plugin check -r` treats vscode_bridge/ as the repo root, so the
+# plugin directory keeps its own .github/workflows scaffold for that check.
 name: CI
 
 on:

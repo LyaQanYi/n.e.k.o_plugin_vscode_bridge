@@ -1,3 +1,6 @@
+# Repo-root release pipeline: builds the .neko-plugin and attaches it to the GitHub Release.
+# The plugin directory also carries the official scaffold (.github/workflows/{verify,release}.yml)
+# required by `neko-plugin check -r`; GitHub only runs workflows from this repo-root directory.
 name: Release
 
 on:
